@@ -1,44 +1,45 @@
 import Image from "next/image";
 import React from "react";
 
+const plan = [
+  {
+    title: "CHOOSE",
+    imgSrc: "/img1.png",
+    dets: (
+      <>
+        Start your adventure by selecting your dream{" "}
+        <span className="text-blue-600">destination.</span> Our AI travel
+        planner offers a wide range of options tailored to your preferences.
+      </>
+    ),
+  },
+
+  {
+    title: "CUSTOMIZE",
+    imgSrc: "/img2.png",
+    dets: (
+      <>
+        <span className="text-purple-600">Personalize</span> your itinerary to
+        match your interests and needs. Modify activities, accommodations, and
+        transportation for a perfect fit.
+      </>
+    ),
+  },
+
+  {
+    title: "TRAVEL",
+    imgSrc: "/img3.png",
+    dets: (
+      <>
+        Embark on your journey with confidence, knowing every detail has been
+        meticulously planned for a seamless{" "}
+        <span className="text-green-600">travel</span> experience.
+      </>
+    ),
+  },
+];
+
 function CreatePlan() {
-  const plan = [
-    {
-      title: "CHOOSE",
-      imgSrc: "/img1.png",
-      dets: (
-        <>
-          Start your adventure by selecting your dream{" "}
-          <span className="text-blue-600">destination.</span> Our AI travel
-          planner offers a wide range of options tailored to your preferences.
-        </>
-      ),
-    },
-
-    {
-      title: "CUSTOMIZE",
-      imgSrc: "/img2.png",
-      dets: (
-        <>
-          <span className="text-purple-600">Personalize</span> your itinerary to
-          match your interests and needs. Modify activities, accommodations, and
-          transportation for a perfect fit.
-        </>
-      ),
-    },
-
-    {
-      title: "TRAVEL",
-      imgSrc: "/img3.png",
-      dets: (
-        <>
-          Embark on your journey with confidence, knowing every detail has been
-          meticulously planned for a seamless{" "}
-          <span className="text-green-600">travel</span> experience.
-        </>
-      ),
-    },
-  ];
   return (
     <div className="my-30">
       <h2 className="font-medium text-4xl text-center mb-10 tracking-wide">

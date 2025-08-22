@@ -6,22 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { SignInButton } from "@clerk/nextjs";
 
-function Header() {
-  const navOptions = [
-    {
-      name: "Home",
-      path: "/",
-    },
-    {
-      name: "Pricing",
-      path: "/",
-    },
-    {
-      name: "Contact Us",
-      path: "/contact-us",
-    },
-  ];
+const navOptions = [
+  {
+    name: "Home",
+    path: "/",
+  },
+  {
+    name: "Pricing",
+    path: "/",
+  },
+  {
+    name: "Contact Us",
+    path: "/contact-us",
+  },
+];
 
+function Header() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

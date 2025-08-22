@@ -6,26 +6,26 @@ import { Globe, Globe2, Landmark, Plane, Send } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
-function HeroSection() {
-  const suggestion = [
-    {
-      title: "Create New Trip",
-      icon: <Globe2 className="text-blue-500 w-5" />,
-    },
-    {
-      title: "Inspire me where to go",
-      icon: <Plane className="text-green-500 w-5" />,
-    },
-    {
-      title: "Discover Hidden Gems",
-      icon: <Landmark className="text-orange-500 w-5" />,
-    },
-    {
-      title: "Adventure Destination",
-      icon: <Globe className="text-yellow-500 w-5" />,
-    },
-  ];
+const suggestion = [
+  {
+    title: "Create New Trip",
+    icon: <Globe2 className="text-blue-500 w-5" />,
+  },
+  {
+    title: "Inspire me where to go",
+    icon: <Plane className="text-green-500 w-5" />,
+  },
+  {
+    title: "Discover Hidden Gems",
+    icon: <Landmark className="text-orange-500 w-5" />,
+  },
+  {
+    title: "Adventure Destination",
+    icon: <Globe className="text-yellow-500 w-5" />,
+  },
+];
 
+function HeroSection() {
   const { user } = useUser();
   const router = useRouter();
 
@@ -57,7 +57,10 @@ function HeroSection() {
             className="border-0 resize-none h-28 focus-visible:ring-0 shadow-none"
             placeholder="e.g:- Create a trip for Delhi to Manali ✈️"
           />
-          <Button className="cursor-pointer absolute right-2 bottom-2" onClick={onSend}>
+          <Button
+            className="cursor-pointer absolute right-2 bottom-2"
+            onClick={onSend}
+          >
             Generata Trip
             <Send />
           </Button>
