@@ -1,7 +1,10 @@
+"use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Globe, Globe2, Landmark, Plane, Send } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 function HeroSection() {
   const suggestion = [
@@ -22,6 +25,16 @@ function HeroSection() {
       icon: <Globe className="text-yellow-500 w-5" />,
     },
   ];
+
+  const { user } = useUser();
+  const router = useRouter();
+
+  const onSend = () => {
+    if (!user) {
+      router.push("/sign-in");
+      return;
+    }
+  };
 
   return (
     <div className="mt-24 flex flex-col items-center justify-center w-full px-4 md:px-0">
@@ -44,7 +57,7 @@ function HeroSection() {
             className="border-0 resize-none h-28 focus-visible:ring-0 shadow-none"
             placeholder="e.g:- Create a trip for Delhi to Manali ✈️"
           />
-          <Button className="cursor-pointer absolute right-2 bottom-2">
+          <Button className="cursor-pointer absolute right-2 bottom-2" onClick={onSend}>
             Generata Trip
             <Send />
           </Button>

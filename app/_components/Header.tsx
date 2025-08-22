@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { SignInButton } from "@clerk/nextjs";
 
 function Header() {
   const navOptions = [
@@ -74,7 +75,9 @@ function Header() {
           </div>
         </div>
       )}
-      <Button className="hidden md:flex cursor-pointer">Get Started</Button>
+      <SignInButton mode="modal">
+        <Button className="hidden md:flex cursor-pointer">Get Started</Button>
+      </SignInButton>
     </div>
   );
 }
