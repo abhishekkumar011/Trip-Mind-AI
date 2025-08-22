@@ -1,7 +1,13 @@
+import CreatePlan from "./_components/CreatePlan";
+import HeroSection from "./_components/HeroSection";
+import WonderFulPlaceList from "./_components/WonderFulPlaceList";
+
 export default function Home() {
   return (
     <div>
-      <h2 className="text-2xl text-center">Hello Welcome to TripMind</h2>
+      <HeroSection />
+      <CreatePlan/>
+      <WonderFulPlaceList/>
     </div>
   );
 }
