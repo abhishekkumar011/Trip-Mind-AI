@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton, useUser } from "@clerk/nextjs";
 
 const navOptions = [
   {
@@ -23,6 +23,7 @@ const navOptions = [
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useUser();
 
   return (
     <div className="flex justify-between py-2 px-4 items-center shadow-md rounded">
@@ -71,13 +72,28 @@ function Header() {
                 </h4>
               </Link>
             ))}
-            <Button className="cursor-pointer">Get Started</Button>
+            {!user ? (
+              <SignInButton mode="modal">
+                <Button className="cursor-pointer" onClick={() => setIsOpen(false)}>Get Started</Button>
+              </SignInButton>
+            ) : (
+              <Link href={"/create-trip"}>
+                <Button className="cursor-pointer" onClick={() => setIsOpen(false)}>Create New Trip</Button>
+              </Link>
+            )}
           </div>
         </div>
       )}
-      <SignInButton mode="modal">
-        <Button className="hidden md:flex cursor-pointer">Get Started</Button>
-      </SignInButton>
+      
+      {!user ? (
+        <SignInButton mode="modal">
+          <Button className="hidden md:flex cursor-pointer">Get Started</Button>
+        </SignInButton>
+      ) : (
+        <Link href={"/create-trip"} className="hidden md:flex">
+          <Button className="cursor-pointer">Create New Trip</Button>
+        </Link>
+      )}
     </div>
   );
 }
