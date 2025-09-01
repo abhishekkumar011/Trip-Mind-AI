@@ -34,6 +34,7 @@ function HeroSection() {
       router.push("/sign-in");
       return;
     }
+    router.push("/create-trip");
   };
 
   return (
