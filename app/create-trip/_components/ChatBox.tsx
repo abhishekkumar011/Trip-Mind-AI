@@ -1,23 +1,25 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
-import { Loader2, Send } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import EmptyChatBox from "./EmptyChatBox";
+import { Loader2, Send } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 type Message = {
   role: string;
   content: string;
+  ui?: string;
 };
 
 function ChatBox() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userInput, setUserInput] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFinal, setIsFinal] = useState<boolean>(false);
 
   const onSend = async () => {
-    if (!userInput?.trim()) return;
+    if (!userInput.trim()) return;
 
     setIsLoading(true);
     setUserInput("");
@@ -31,24 +33,45 @@ function ChatBox() {
 
     const response = await axios.post("/api/aimodel", {
       messages: [...messages, newMsg],
+      isFinal,
     });
 
-    setMessages((prev: Message[]) => [
-      ...prev,
-      {
-        role: "assistant",
-        content: response?.data?.resp,
-      },
-    ]);
-    console.log(response.data);
+    console.log("TRIP DETS", response.data);
+
+    !isFinal &&
+      setMessages((prev: Message[]) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: response?.data?.resp,
+          ui: response?.data?.ui,
+        },
+      ]);
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (messages.length === 0) return;
+    const lastMsg = messages[messages.length - 1];
+
+    if (lastMsg.ui === "final") {
+      setIsFinal(true);
+      setUserInput("Ok Great");
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (isFinal && userInput) {
+      onSend();
+    }
+  }, [isFinal]);
+
   return (
-    <div className="flex flex-col min-h-[81vh]">
+    <div className="flex flex-col h-[81vh]">
       {messages.length === 0 && <EmptyChatBox />}
       <section className="flex-1 overflow-y-auto p-4">
         {messages.map((msg, index) =>
-          msg.role == "user" ? (
+          msg.role === "user" ? (
             <div className="flex justify-end mt-2" key={index}>
               <div className="max-w-lg bg-primary text-white px-4 py-2 rounded-lg">
                 {msg.content}
@@ -82,7 +105,7 @@ function ChatBox() {
           />
           <Button
             className="cursor-pointer absolute right-2 bottom-2"
-            onClick={onSend}
+            onClick={() => onSend()}
           >
             Generata Trip
             <Send />
