@@ -5,6 +5,10 @@ import EmptyChatBox from "./EmptyChatBox";
 import { Loader2, Send } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useUserContext } from "@/app/provider";
+import { v4 as uuidv4 } from "uuid";
 
 type Message = {
   role: string;
@@ -12,11 +16,25 @@ type Message = {
   ui?: string;
 };
 
+type TripDetail = {
+  budget: string;
+  destination: string;
+  duration: string;
+  group_size: string;
+  origin: string;
+  hotels: any;
+  itinerary: any;
+};
+
 function ChatBox() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userInput, setUserInput] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFinal, setIsFinal] = useState<boolean>(false);
+  const [tripDetail, setTripDetail] = useState<TripDetail>();
+
+  const { userDetails, setUserDetails } = useUserContext();
+  const saveTripDetail = useMutation(api.tripDetail.createTripDetail);
 
   const onSend = async () => {
     if (!userInput.trim()) return;
@@ -47,6 +65,18 @@ function ChatBox() {
           ui: response?.data?.ui,
         },
       ]);
+
+    if (isFinal) {
+      setTripDetail(response?.data?.trip_plan);
+      const tripId = uuidv4();
+
+      await saveTripDetail({
+        tripId,
+        tripDetail: response?.data?.trip_plan,
+        uid: userDetails._id,
+      });
+    }
+
     setIsLoading(false);
   };
 
