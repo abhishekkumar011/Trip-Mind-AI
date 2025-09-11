@@ -1,13 +1,16 @@
 import React from "react";
 import ChatBox from "./_components/ChatBox";
+import Itinerary from "./_components/Itinerary";
 
 function page() {
   return (
-    <div className="flex flex-col md:flex-row gap-5 p-4 md:p-10 ">
-      <div className="w-1/2">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 p-4 md:p-10 ">
+      <div>
         <ChatBox />
       </div>
-      <div className="w-1/2">Map and Trip plan to display</div>
+      <div className="col-span-2 mt-10 md:mt-0">
+        <Itinerary />
+      </div>
     </div>
   );
 }

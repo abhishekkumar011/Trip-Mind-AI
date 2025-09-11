@@ -1,14 +1,15 @@
 "use client";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import EmptyChatBox from "./EmptyChatBox";
-import { Loader2, Send } from "lucide-react";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
-import { useUserContext } from "@/app/provider";
 import { v4 as uuidv4 } from "uuid";
+import EmptyChatBox from "./EmptyChatBox";
+import { useMutation } from "convex/react";
+import { Loader2, Send } from "lucide-react";
+import { api } from "@/convex/_generated/api";
+import { Button } from "@/components/ui/button";
+import React, { useEffect, useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { useUserContext } from "@/context/UserContext";
+import { useTripContext } from "@/context/TripContext";
 
 type Message = {
   role: string;
@@ -16,14 +17,48 @@ type Message = {
   ui?: string;
 };
 
-type TripDetail = {
+export type TripDetail = {
   budget: string;
   destination: string;
   duration: string;
   group_size: string;
   origin: string;
-  hotels: any;
-  itinerary: any;
+  hotels: Hotel[];
+  itinerary: Itinerary[];
+};
+
+export type Hotel = {
+  hotel_name: string;
+  hotel_address: string;
+  price_per_night: string;
+  hotel_image_url: string;
+  geo_coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+  rating: number;
+  description: string;
+};
+
+export type Activity = {
+  place_name: string;
+  place_details: string;
+  place_image_url: string;
+  geo_coordinates: {
+    latitude: number;
+    longitude: number;
+  };
+  place_address: string;
+  ticket_pricing: string;
+  time_travel_each_location: string;
+  best_time_to_visit: string;
+};
+
+export type Itinerary = {
+  day: number;
+  day_plan: string;
+  best_time_to_visit_day: string;
+  activities: Activity[];
 };
 
 function ChatBox() {
@@ -31,9 +66,10 @@ function ChatBox() {
   const [userInput, setUserInput] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFinal, setIsFinal] = useState<boolean>(false);
-  const [tripDetail, setTripDetail] = useState<TripDetail>();
 
   const { userDetails, setUserDetails } = useUserContext();
+  const { tripDetails, setTripDetails } = useTripContext();
+
   const saveTripDetail = useMutation(api.tripDetail.createTripDetail);
 
   const onSend = async () => {
@@ -67,7 +103,8 @@ function ChatBox() {
       ]);
 
     if (isFinal) {
-      setTripDetail(response?.data?.trip_plan);
+      setTripDetails(response?.data?.trip_plan);
+      setIsFinal(false);
       const tripId = uuidv4();
 
       await saveTripDetail({
