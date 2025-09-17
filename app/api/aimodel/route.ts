@@ -43,6 +43,8 @@ const prompt = `
 `;
 
 const finalPrompt = `Generate Travel Plan with give details, give me Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, Place address, ticket Pricing, Time travel each of the location, with each day plan with best time to visit in JSON format.
+Always provide hotel prices, ticket costs, and all other expenses strictly in Indian Rupees (₹).
+Do not use dollars ($) or any other currency. Convert approximate costs to INR when necessary.
 Output Schema:
 
 {
@@ -108,7 +110,6 @@ export async function POST(req: NextRequest) {
       ],
     });
 
-    console.log(completion.choices[0].message);
     const message = completion.choices[0].message;
 
     return NextResponse.json(JSON.parse(message.content ?? ""));

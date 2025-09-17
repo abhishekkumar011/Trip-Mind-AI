@@ -4,11 +4,11 @@ import Itinerary from "./_components/Itinerary";
 
 function page() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-5 p-4 md:p-10 ">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 p-4 lg:p-10 ">
       <div>
         <ChatBox />
       </div>
-      <div className="col-span-2 mt-10 md:mt-0">
+      <div className="col-span-2 mt-10 lg:mt-0">
         <Itinerary />
       </div>
     </div>

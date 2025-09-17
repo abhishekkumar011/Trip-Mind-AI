@@ -67,8 +67,8 @@ function ChatBox() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFinal, setIsFinal] = useState<boolean>(false);
 
-  const { userDetails, setUserDetails } = useUserContext();
-  const { tripDetails, setTripDetails } = useTripContext();
+  const { userDetails } = useUserContext();
+  const { setTripDetails } = useTripContext();
 
   const saveTripDetail = useMutation(api.tripDetail.createTripDetail);
 
@@ -89,8 +89,6 @@ function ChatBox() {
       messages: [...messages, newMsg],
       isFinal,
     });
-
-    console.log("TRIP DETS", response.data);
 
     !isFinal &&
       setMessages((prev: Message[]) => [

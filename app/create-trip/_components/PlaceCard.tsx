@@ -35,15 +35,17 @@ function PlaceCard({ activity }: ActivityProps) {
   }, [activity]);
 
   return (
-    <div>
-      <Image
-        src={imgUrl ? imgUrl : "/placeholder.jpg"}
-        width={400}
-        height={200}
-        alt={activity.place_name}
-        className="rounded-t-md object-cover"
-      />
-      <div className="flex flex-col gap-2 px-3 py-2 shadow-md rounded-b-lg">
+    <div className="border rounded-lg shadow-md">
+      <div className="h-50 lg:h-35">
+        <Image
+          src={imgUrl ? imgUrl : "/placeholder.jpg"}
+          width={400}
+          height={200}
+          alt={activity.place_name}
+          className="rounded-t-md object-cover w-full h-full"
+        />
+      </div>
+      <div className="flex flex-col gap-2 px-3 py-2 rounded-b-lg">
         <h2 className="font-semibold text-lg leading-tight">
           {activity.place_name}
         </h2>
@@ -67,7 +69,7 @@ function PlaceCard({ activity }: ActivityProps) {
             variant={"outline"}
             className="w-full mt-2 mb-1 cursor-pointer"
           >
-            View <ExternalLink />
+            View on Map<ExternalLink />
           </Button>
         </Link>
       </div>

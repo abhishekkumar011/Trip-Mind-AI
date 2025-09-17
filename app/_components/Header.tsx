@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import { SignInButton, useUser } from "@clerk/nextjs";
+import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 
 const navOptions = [
   {
@@ -74,26 +74,55 @@ function Header() {
             ))}
             {!user ? (
               <SignInButton mode="modal">
-                <Button className="cursor-pointer" onClick={() => setIsOpen(false)}>Get Started</Button>
+                <Button
+                  className="cursor-pointer"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Login
+                </Button>
               </SignInButton>
             ) : (
-              <Link href={"/create-trip"}>
-                <Button className="cursor-pointer" onClick={() => setIsOpen(false)}>Create New Trip</Button>
-              </Link>
+              <>
+                <Link href={"/create-trip"}>
+                  <Button
+                    className="cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Create New Trip
+                  </Button>
+                </Link>
+                <SignOutButton>
+                  <Button
+                    className="cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Logout
+                  </Button>
+                </SignOutButton>
+              </>
             )}
           </div>
         </div>
       )}
-      
-      {!user ? (
-        <SignInButton mode="modal">
-          <Button className="hidden md:flex cursor-pointer">Get Started</Button>
-        </SignInButton>
-      ) : (
-        <Link href={"/create-trip"} className="hidden md:flex">
-          <Button className="cursor-pointer">Create New Trip</Button>
-        </Link>
-      )}
+
+      <div className="md:flex gap-5 hidden">
+        {!user ? (
+          <SignInButton mode="modal">
+            <Button className="cursor-pointer font-medium text-md">
+              Login
+            </Button>
+          </SignInButton>
+        ) : (
+          <>
+            <Link href={"/create-trip"}>
+              <Button className="cursor-pointer">Create New Trip</Button>
+            </Link>
+            <SignOutButton>
+              <Button className="cursor-pointer">Logout</Button>
+            </SignOutButton>
+          </>
+        )}
+      </div>
     </div>
   );
 }

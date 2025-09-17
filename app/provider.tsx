@@ -1,10 +1,12 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import Header from "./_components/Header";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useUser } from "@clerk/nextjs";
 import { UserContext } from "@/context/UserContext";
+import { TripContext } from "@/context/TripContext";
+import React, { useEffect, useState } from "react";
+import { TripDetail } from "./create-trip/_components/ChatBox";
 
 function Provider({
   children,
@@ -13,6 +15,15 @@ function Provider({
 }>) {
   const createUser = useMutation(api.user.createNewUser);
   const [userDetails, setUserDetails] = useState<any>();
+  const [tripDetails, setTripDetails] = useState<TripDetail>({
+    budget: "",
+    destination: "",
+    duration: "",
+    group_size: "",
+    origin: "",
+    hotels: [],
+    itinerary: [],
+  });
 
   const { user } = useUser();
 
@@ -33,16 +44,14 @@ function Provider({
 
   return (
     <UserContext.Provider value={{ userDetails, setUserDetails }}>
-      <div>
-        <Header />
-        {children}
-      </div>
+      <TripContext.Provider value={{ tripDetails, setTripDetails }}>
+        <div>
+          <Header />
+          {children}
+        </div>
+      </TripContext.Provider>
     </UserContext.Provider>
   );
 }
 
 export default Provider;
-
-export const useUserContext = () => {
-  return useContext(UserContext);
-};

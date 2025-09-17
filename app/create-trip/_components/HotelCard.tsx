@@ -35,16 +35,18 @@ function HotelCard({ hotel }: HotelCardProps) {
   }, [hotel]);
 
   return (
-    <div>
-      <Image
-        src={imgUrl ? imgUrl : "/placeholder.jpg"}
-        alt="placeholder"
-        width={400}
-        height={200}
-        className="rounded-t-md object-cover"
-      />
+    <div className="border rounded-lg shadow-md">
+      <div className="h-50 lg:h-35">
+        <Image
+          src={imgUrl ? imgUrl : "/placeholder.jpg"}
+          alt="placeholder"
+          width={400}
+          height={200}
+          className="rounded-t-md object-cover h-full w-full"
+        />
+      </div>
 
-      <div className="flex flex-col gap-2 px-3 py-2 shadow-md rounded-b-lg">
+      <div className="flex flex-col gap-2 px-3 py-2 rounded-b-lg">
         <h2 className="font-medium text-lg leading-tight">
           {hotel.hotel_name}
         </h2>
@@ -60,7 +62,9 @@ function HotelCard({ hotel }: HotelCardProps) {
         <Link
           href={
             "https://www.google.com/maps/search/?api=1&query=" +
-            hotel.hotel_name
+            hotel.hotel_name +
+            " " +
+            hotel.hotel_address
           }
           target="_blank"
         >
@@ -68,7 +72,7 @@ function HotelCard({ hotel }: HotelCardProps) {
             variant={"outline"}
             className="w-full mt-2 mb-1 cursor-pointer"
           >
-            View <ExternalLink />
+            View on Map <ExternalLink />
           </Button>
         </Link>
       </div>
