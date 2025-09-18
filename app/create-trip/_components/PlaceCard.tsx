@@ -36,7 +36,7 @@ function PlaceCard({ activity }: ActivityProps) {
 
   return (
     <div className="border rounded-lg shadow-md">
-      <div className="h-50 lg:h-35">
+      <div className="h-55">
         <Image
           src={imgUrl ? imgUrl : "/placeholder.jpg"}
           width={400}
