@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import React, { useState } from "react";
+import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 
 const navOptions = [
@@ -12,18 +13,20 @@ const navOptions = [
     path: "/",
   },
   {
-    name: "Pricing",
+    name: "Contact Us",
     path: "/",
   },
   {
-    name: "Contact Us",
-    path: "/contact-us",
+    name: "About Us",
+    path: "/",
   },
 ];
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useUser();
+
+  const pathname = usePathname();
 
   return (
     <div className="flex justify-between py-2 px-4 items-center shadow-md rounded">
@@ -83,14 +86,25 @@ function Header() {
               </SignInButton>
             ) : (
               <>
-                <Link href={"/create-trip"}>
-                  <Button
-                    className="cursor-pointer"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    Create New Trip
-                  </Button>
-                </Link>
+                {pathname === "/create-trip" ? (
+                  <Link href={"/my-trips"}>
+                    <Button
+                      className="cursor-pointer"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      My Trips
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link href={"/create-trip"}>
+                    <Button
+                      className="cursor-pointer"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Create New Trip
+                    </Button>
+                  </Link>
+                )}
                 <SignOutButton>
                   <Button
                     className="cursor-pointer"
@@ -114,9 +128,15 @@ function Header() {
           </SignInButton>
         ) : (
           <>
-            <Link href={"/create-trip"}>
-              <Button className="cursor-pointer">Create New Trip</Button>
-            </Link>
+            {pathname === "/create-trip" ? (
+              <Link href={"/my-trips"}>
+                <Button className="cursor-pointer">My Trips</Button>
+              </Link>
+            ) : (
+              <Link href={"/create-trip"}>
+                <Button className="cursor-pointer">Create New Trip</Button>
+              </Link>
+            )}
             <SignOutButton>
               <Button className="cursor-pointer">Logout</Button>
             </SignOutButton>
